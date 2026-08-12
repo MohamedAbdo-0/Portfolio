@@ -1,0 +1,1202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mohamed Abdalmawla | Junior Data Scientist</title>
+    <meta name="description" content="Mohamed Abdalmawla — Junior Data Scientist based in Dubai, UAE. 13+ end-to-end Machine Learning projects across predictive maintenance, time-series forecasting, and classification, backed by 27+ certifications in Python, ML, SQL, and BI.">
+    <meta name="author" content="Mohamed Abdalmawla">
+    <meta property="og:title" content="Mohamed Abdalmawla | Junior Data Scientist">
+    <meta property="og:description" content="13+ end-to-end Machine Learning projects across predictive maintenance, time-series forecasting, and classification. Explore the portfolio.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/249554286?v=4">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Mohamed Abdalmawla | Junior Data Scientist">
+    <meta name="twitter:description" content="13+ end-to-end Machine Learning projects across predictive maintenance, time-series forecasting, and classification.">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📊</text></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Syne:wght@400..800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --indigo: #6366f1;
+            --hot-pink: #f43f5e;
+            --cyan: #06b6d4;
+            --amber: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #a1a1aa;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --font-heading: 'Syne', sans-serif;
+            --font-body: 'DM Sans', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Noise Texture Overlay */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url("https://grainy-gradients.vercel.app/noise.svg");
+            opacity: 0.05;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-color);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--indigo), var(--hot-pink));
+            border-radius: 10px;
+        }
+
+        /* Custom Cursor */
+        #cursor-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--cyan);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10001;
+            transform: translate(-50%, -50%);
+            box-shadow: 0 0 15px var(--cyan);
+        }
+        #cursor-ring {
+            width: 40px;
+            height: 40px;
+            border: 1.5px solid var(--indigo);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            transform: translate(-50%, -50%);
+            transition: width 0.3s, height 0.3s, border-color 0.3s;
+        }
+
+        /* Loading Screen */
+        #loader {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-color);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 10002;
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        #loader.fade-out {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader-initials {
+            font-family: var(--font-heading);
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--indigo), var(--hot-pink), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: pulse 2s infinite;
+        }
+        .progress-bar {
+            width: 200px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+            margin-top: 20px;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--indigo), var(--cyan));
+            transition: width 2s ease-in-out;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.95); }
+        }
+
+        /* Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at center, #111 0%, #000 100%);
+        }
+
+        /* Navbar */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 10%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(5, 5, 5, 0.5);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            transform: translateY(-100%);
+            animation: slideDown 0.8s forwards 2.2s;
+        }
+        @keyframes slideDown {
+            to { transform: translateY(0); }
+        }
+        .logo {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--text-primary);
+        }
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--indigo), var(--cyan));
+            transition: width 0.3s;
+        }
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Section Styling */
+        section {
+            padding: 100px 10%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 3rem;
+            margin-bottom: 60px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .section-title span { color: var(--hot-pink); }
+
+        /* Hero Section */
+        .hero-container {
+            display: grid;
+            grid-template-columns: 1.2fr 0.8fr;
+            gap: 50px;
+            width: 100%;
+        }
+        .availability {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 100px;
+            color: #10b981;
+            font-size: 0.8rem;
+            margin-bottom: 20px;
+        }
+        .availability .dot {
+            width: 6px;
+            height: 6px;
+            background: #10b981;
+            border-radius: 50%;
+            animation: pulse-green 2s infinite;
+        }
+        @keyframes pulse-green {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+
+        .hero-text h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            line-height: 1;
+            margin-bottom: 10px;
+            background: linear-gradient(90deg, #fff, #555, #fff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmer 4s linear infinite;
+        }
+        @keyframes shimmer {
+            to { background-position: 200% center; }
+        }
+        .hero-text h2 {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            margin-bottom: 40px;
+        }
+        .cta-group {
+            display: flex;
+            gap: 20px;
+        }
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .btn-primary {
+            background: var(--indigo);
+            color: white;
+            box-shadow: 0 10px 20px -10px var(--indigo);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -10px var(--indigo);
+        }
+        .btn-secondary {
+            border: 1px solid var(--glass-border);
+            color: white;
+            background: var(--glass);
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-3px);
+        }
+
+        /* 3D Floating Card */
+        .hero-visual {
+            position: relative;
+            perspective: 1000px;
+        }
+        .floating-card {
+            width: 320px;
+            height: 400px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateY(10deg); }
+            50% { transform: translateY(-20px) rotateY(-10deg); }
+        }
+        .card-initials {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--indigo), var(--hot-pink));
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2.5rem;
+            font-family: var(--font-heading);
+            font-weight: 800;
+            margin-bottom: 20px;
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+        }
+        .spinning-ring {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 180px; height: 180px;
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            margin-left: -90px; margin-top: -90px;
+            animation: spin 10s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .glowing-orb {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 250px; height: 250px;
+            background: radial-gradient(circle, var(--indigo) 0%, transparent 70%);
+            opacity: 0.2;
+            filter: blur(40px);
+            z-index: -1;
+            margin-left: -125px; margin-top: -125px;
+        }
+        .card-stats {
+            width: 100%;
+            margin-top: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        .stat-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .stat-val { color: var(--cyan); font-weight: 700; }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+        .skill-bar-container { margin-bottom: 25px; }
+        .skill-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        .skill-name { font-weight: 600; color: var(--text-primary); }
+        .skill-percent { color: var(--cyan); font-family: monospace; }
+        .bar-bg {
+            height: 6px;
+            background: var(--glass);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(90deg, var(--indigo), var(--cyan));
+            border-radius: 10px;
+            position: relative;
+        }
+        .bar-fill::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 40px; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: sweep 2s infinite;
+        }
+        @keyframes sweep {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(300%); }
+        }
+        .tech-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-content: flex-start;
+        }
+        .tech-chip {
+            padding: 10px 20px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .tech-chip:hover {
+            transform: translateY(-5px);
+            background: rgba(255,255,255,0.08);
+            border-color: var(--cyan);
+            color: var(--cyan);
+            box-shadow: 0 10px 20px -10px var(--cyan);
+        }
+
+        /* Certificates Section */
+        .certs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+        .cert-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 24px;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .cert-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--amber);
+            transform: translateY(-8px);
+            box-shadow: 0 15px 30px -10px rgba(245, 158, 11, 0.2);
+        }
+        .cert-platform {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: var(--amber);
+        }
+        .cert-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            line-height: 1.4;
+        }
+        .cert-link-icon {
+            margin-top: auto;
+            align-self: flex-end;
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        /* Projects Section */
+        .projects-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 30px;
+            width: 100%;
+        }
+        .project-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 40px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s;
+            display: flex;
+            flex-direction: column;
+            min-height: 380px;
+            text-decoration: none;
+            color: inherit;
+        }
+        .project-link-icon {
+            margin-top: 16px;
+            color: var(--cyan);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .project-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--indigo), var(--cyan));
+            transform: translateX(-100%);
+            transition: transform 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .project-card:hover::before {
+            transform: translateX(0);
+        }
+        .project-card:hover {
+            transform: translateY(-15px);
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255,255,255,0.2);
+        }
+        .project-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+        .project-card h3 {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+        }
+        .project-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 25px;
+            flex-grow: 1;
+        }
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: auto;
+        }
+        .tag {
+            font-size: 0.7rem;
+            color: var(--cyan);
+            font-weight: 700;
+            padding: 4px 10px;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 4px;
+        }
+
+        /* Marquee */
+        .marquee-container {
+            width: 100%;
+            overflow: hidden;
+            background: var(--glass);
+            padding: 40px 0;
+            margin: 80px 0;
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .marquee-content {
+            display: flex;
+            gap: 80px;
+            white-space: nowrap;
+            animation: marquee 30s linear infinite;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-item {
+            font-family: var(--font-heading);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--glass-border);
+            transition: color 0.3s;
+        }
+        .marquee-item:hover { color: var(--text-primary); }
+
+        /* Contact Section */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 80px;
+        }
+        .contact-info-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            transition: all 0.4s;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .contact-info-card:hover {
+            transform: translateX(20px);
+            border-color: var(--amber);
+            box-shadow: -10px 0 20px -10px var(--amber);
+        }
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(245, 158, 11, 0.1);
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--amber);
+        }
+        .contact-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+        .ripple-initials {
+            width: 120px; height: 120px;
+            background: var(--indigo);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3rem;
+            font-weight: 800;
+            font-family: var(--font-heading);
+            z-index: 1;
+            box-shadow: 0 0 50px rgba(99, 102, 241, 0.5);
+        }
+        .ripple {
+            position: absolute;
+            border: 2px solid var(--indigo);
+            border-radius: 50%;
+            animation: ripple 4s linear infinite;
+            opacity: 0;
+        }
+        .ripple:nth-child(2) { animation-delay: 1s; }
+        .ripple:nth-child(3) { animation-delay: 2s; }
+        .ripple:nth-child(4) { animation-delay: 3s; }
+
+        @keyframes ripple {
+            0% { width: 120px; height: 120px; opacity: 0.5; }
+            100% { width: 500px; height: 500px; opacity: 0; }
+        }
+
+        footer {
+            padding: 60px 10%;
+            text-align: center;
+            border-top: 1px solid var(--glass-border);
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-container, .skills-grid, .contact-grid { grid-template-columns: 1fr; }
+            .hero-visual { order: -1; display: flex; justify-content: center; }
+            nav { padding: 20px 5%; }
+            .nav-links { display: none; }
+        }
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 3.5rem; }
+            .projects-gallery, .certs-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-dot"></div>
+    <div id="cursor-ring"></div>
+
+    <div id="loader">
+        <div class="loader-initials">MA</div>
+        <div class="progress-bar"><div class="progress-fill"></div></div>
+    </div>
+
+    <canvas id="particle-canvas"></canvas>
+
+    <nav>
+        <div class="logo">M.ABDALMAWLA</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#certificates">Certificates</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about" class="visible">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="availability">
+                    <div class="dot"></div> Available for Internship & Opportunities
+                </div>
+                <h1>Mohamed<br>Abdalmawla</h1>
+                <h2>Junior Data Scientist | Machine Learning | AI</h2>
+                <p style="color: var(--text-secondary); margin-bottom: 30px; max-width: 600px;">
+                    Junior Data Scientist focused on building end-to-end Machine Learning and AI solutions, from exploratory data analysis and feature engineering to model development, evaluation, and deployment.
+                </p>
+                <div class="cta-group">
+                    <a href="#contact" class="btn btn-primary">Hire Me</a>
+                    <a href="resume.pdf" target="_blank" class="btn btn-secondary">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 17v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+                        Download CV
+                    </a>
+                    <a href="https://github.com/MohamedAbdo-0" target="_blank" class="btn btn-secondary">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        GitHub Profile
+                    </a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="glowing-orb"></div>
+                <div class="spinning-ring"></div>
+                <div class="floating-card">
+                    <div class="card-initials">MA</div>
+                    <h3 style="font-family: var(--font-heading); font-size: 1.2rem; margin-bottom: 5px;">Data Scientist</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Dubai, UAE</p>
+                    <div class="card-stats">
+                        <div class="stat-item"><span>Projects</span><span class="stat-val">13+</span></div>
+                        <div class="stat-item"><span>Certificates</span><span class="stat-val">27+</span></div>
+                        <div class="stat-item"><span>ML Solutions</span><span class="stat-val">End-to-End</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills">
+        <div style="width: 100%;">
+            <h2 class="section-title">My <span>Expertise</span></h2>
+            <div class="skills-grid">
+                <div class="skill-bars">
+                    <div class="skill-bar-container">
+                        <div class="skill-info"><span class="skill-name">Machine Learning</span><span class="skill-percent">95%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" data-percent="95"></div></div>
+                    </div>
+                    <div class="skill-bar-container">
+                        <div class="skill-info"><span class="skill-name">Python & SQL</span><span class="skill-percent">90%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" data-percent="90"></div></div>
+                    </div>
+                    <div class="skill-bar-container">
+                        <div class="skill-info"><span class="skill-name">Time Series Forecasting</span><span class="skill-percent">88%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" data-percent="88"></div></div>
+                    </div>
+                    <div class="skill-bar-container">
+                        <div class="skill-info"><span class="skill-name">Feature Engineering</span><span class="skill-percent">92%</span></div>
+                        <div class="bar-bg"><div class="bar-fill" data-percent="92"></div></div>
+                    </div>
+                </div>
+                <div class="tech-cloud">
+                    <div class="tech-chip">Pandas</div>
+                    <div class="tech-chip">NumPy</div>
+                    <div class="tech-chip">Scikit-Learn</div>
+                    <div class="tech-chip">Deep Learning</div>
+                    <div class="tech-chip">NLP</div>
+                    <div class="tech-chip">Generative AI</div>
+                    <div class="tech-chip">Power BI</div>
+                    <div class="tech-chip">EDA</div>
+                    <div class="tech-chip">Statistical Analysis</div>
+                    <div class="tech-chip">Gradient Boosting</div>
+                    <div class="tech-chip">Random Forest</div>
+                    <div class="tech-chip">LLMs (Qwen 2.5)</div>
+                    <div class="tech-chip">Whisper-v3</div>
+                    <div class="tech-chip">OpenCV</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="marquee-container">
+        <div class="marquee-content">
+            <div class="marquee-item">IBM</div>
+            <div class="marquee-item">COURSERA</div>
+            <div class="marquee-item">DATACAMP</div>
+            <div class="marquee-item">MICROSOFT</div>
+            <div class="marquee-item">NASA C-MAPSS</div>
+            <div class="marquee-item">IBM</div>
+            <div class="marquee-item">COURSERA</div>
+            <div class="marquee-item">DATACAMP</div>
+            <div class="marquee-item">MICROSOFT</div>
+            <div class="marquee-item">NASA C-MAPSS</div>
+        </div>
+    </div>
+
+    <!-- Certificates Section -->
+    <section id="certificates">
+        <div style="width: 100%;">
+            <h2 class="section-title">Professional <span>Certifications</span></h2>
+            <div class="certs-grid">
+                <!-- New 4 Certificates -->
+                <a href="https://drive.google.com/file/d/1CDNzJOD9FLuUhmdXficty_1BgUv3EsdF/view?usp=drive_link" target="_blank" class="cert-card">
+                    <span class="cert-platform">Dubai Future Foundation</span>
+                    <span class="cert-title">1 Million Prompters Initiative</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1NyutcQ8krBOcvKRpHxCvDJ0syBlVeEVW/view?usp=drive_link" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Machine Learning Professional Certificate</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/162tDMJf9FmFHNG7wQs0RoPVJmQu036wZ/view?usp=drive_link" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Data Science Professional Certificate</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1l63XcWu_XqMRIWx5zwlKiT9bgOMQh0bK/view?usp=drive_link" target="_blank" class="cert-card">
+                    <span class="cert-platform">Microsoft Learn</span>
+                    <span class="cert-title">Explore Generative AI Specialization</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+
+                <!-- Previous 12 Certificates -->
+                <a href="https://drive.google.com/file/d/1ZZtcL3HJ52o9oEygEDeLGMxmPYNOGe8E/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Data Science Methodology</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1S9qmmzrz8yl6Ul0gP8tTqmlGa0S6wvKC/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Tools for Data Science</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1FtDETTcUaON5I5Y51QKhdD39rtgq9axb/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">What is Data Science?</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1NomybOO6702MOQ06CZOJrrcXIhXQg2kz/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Applied Data Science Capstone</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1d53DfjTBAJzGa9mQyIMlqTgJ3rIltVYZ/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Data Analysis with Python</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1YFYSkvPG_hNP_gf8khBr8j2sIDuIUMxz/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Data Visualization with Python</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1Xx2OXuT6gz1brfwzzFs3DML9VvZ6KJlL/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Databases and SQL for Data Science</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1L80C2mkvnjO0Yv3zSP541lptCydCJTUy/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">IBM / Coursera</span>
+                    <span class="cert-title">Exploratory Data Analysis for ML</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1XKREXs3_XBWCOnFSLmBAUPEi0pxDSUXo/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">Coursera</span>
+                    <span class="cert-title">Deep & Reinforcement Learning</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1SWG_Wle2HyiAc5FXV-YvBhbm8IL2T_Kj/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">Coursera</span>
+                    <span class="cert-title">Data Scientist Career Guide</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1WimS5PLPaTWlUAdALEVxNMujRFrEDTi_/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">DataCamp</span>
+                    <span class="cert-title">SQL Professional Certificate</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+                <a href="https://drive.google.com/file/d/1-J2vsqbsfPu-HMk9S668x-Ndsffz8qdy/view" target="_blank" class="cert-card">
+                    <span class="cert-platform">DataCamp</span>
+                    <span class="cert-title">Data Scientist Professional</span>
+                    <span class="cert-link-icon">View Certificate →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Unified Projects Section -->
+    <section id="projects">
+        <div style="width: 100%;">
+            <h2 class="section-title">Project <span>Portfolio</span></h2>
+            <div class="projects-gallery">
+                <!-- Featured Project -->
+                <a href="https://github.com/MohamedAbdo-0/Lithology-Classification-from-Well-Logs" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🪨</div>
+                    <h3>Lithology Classification from Well Logs</h3>
+                    <p>End-to-end Machine Learning system for classifying subsurface lithology at different depths. Uses Gamma Ray, Neutron Porosity, Bulk Density, Sonic, and Photoelectric Factor well logs to identify lithological formations and support reservoir characterization and drilling-related decision making. Built on 1.2M+ well-log records.</p>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Well Logs</span>
+                        <span class="tag">Oil & Gas</span>
+                        <span class="tag">1.2M+ Records</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 2 -->
+                <a href="https://github.com/MohamedAbdo-0" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🤖</div>
+                    <h3>Inview AI Screener</h3>
+                    <p>An automated candidate screening system that uses LLMs (Qwen 2.5) and Speech-to-Text (Whisper-v3) for deep semantic analysis of interviews. It utilizes Computer Vision to detect candidate presence and attendance.</p>
+                    <div class="project-tags">
+                        <span class="tag">LLM</span>
+                        <span class="tag">NLP</span>
+                        <span class="tag">Computer Vision</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 2 -->
+                <a href="https://github.com/MohamedAbdo-0/Predictive-Maintenance-for-Aircraft-Engines" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">✈️</div>
+                    <h3>Aircraft Engine Maintenance</h3>
+                    <p>A multi-class classification model developed using the NASA C-MAPSS dataset. It predicts aircraft engine maintenance needs by classifying Remaining Useful Life (RUL) into actionable maintenance categories based on 87 engineered features.</p>
+                    <div class="project-tags">
+                        <span class="tag">Machine Learning</span>
+                        <span class="tag">Time-Series</span>
+                        <span class="tag">NASA Data</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 3 -->
+                <a href="https://github.com/MohamedAbdo-0" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🏥</div>
+                    <h3>Medical Equipment Maintenance</h3>
+                    <p>Predictive system designed to estimate the RUL and failure risks for over 7,000 medical devices. Analyzed 20+ sensors using Gradient Boosting Regressor and Random Forest models to minimize critical downtime.</p>
+                    <div class="project-tags">
+                        <span class="tag">Regression</span>
+                        <span class="tag">Gradient Boosting</span>
+                        <span class="tag">Healthcare</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 4 -->
+                <a href="https://github.com/MohamedAbdo-0/broadcast-viewership-forecasting" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">📈</div>
+                    <h3>Viewership Forecasting</h3>
+                    <p>A forecasting engine that predicts daily broadcast viewership 15 days in advance with a high accuracy (R² 0.89). Accounts for seasonality, holidays, and event effects using multi-step regression.</p>
+                    <div class="project-tags">
+                        <span class="tag">Forecasting</span>
+                        <span class="tag">Data Science</span>
+                        <span class="tag">Regression</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 5 -->
+                <a href="https://github.com/MohamedAbdo-0" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🌾</div>
+                    <h3>Smart Crop Recommendation</h3>
+                    <p>A Machine Learning project that suggests the most suitable crops for planting by analyzing soil metrics (Nitrogen, Phosphorus, Potassium, pH) and environmental conditions like temperature and humidity.</p>
+                    <div class="project-tags">
+                        <span class="tag">ML</span>
+                        <span class="tag">Agri-Tech</span>
+                        <span class="tag">Analytics</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 6 -->
+                <a href="https://github.com/MohamedAbdo-0" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🏗️</div>
+                    <h3>UAE Construction Cost Predictor</h3>
+                    <p>End-to-end Machine Learning model tailored to predict construction project costs in the UAE (AED). Based on project-level data like building area, type, and regional market trends.</p>
+                    <div class="project-tags">
+                        <span class="tag">Real Estate</span>
+                        <span class="tag">ML</span>
+                        <span class="tag">Cost Analysis</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 7 -->
+                <a href="https://github.com/MohamedAbdo-0/inventory-forecasting" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🛒</div>
+                    <h3>Inventory Demand Prediction</h3>
+                    <p>Demand prediction system for supermarkets using historical sales, stock levels, and promotions. Optimizes inventory management to reduce stockouts and enhance supply chain efficiency.</p>
+                    <div class="project-tags">
+                        <span class="tag">Time-Series</span>
+                        <span class="tag">Inventory</span>
+                        <span class="tag">Business Intelligence</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+                <!-- Project 8 -->
+                <a href="https://github.com/MohamedAbdo-0" target="_blank" rel="noopener" class="project-card">
+                    <div class="project-icon">🚗</div>
+                    <h3>Vehicle Cost Predictor</h3>
+                    <p>A predictive system that estimates vehicle maintenance costs by analyzing driver behavior, historical maintenance logs, and vehicle usage patterns using AI-driven predictive modeling.</p>
+                    <div class="project-tags">
+                        <span class="tag">AI</span>
+                        <span class="tag">Predictive Modeling</span>
+                        <span class="tag">Automotive</span>
+                    </div>
+                    <span class="project-link-icon">View Repository →</span>
+                </a>
+            </div>
+
+            <div style="margin-top: 50px; padding: 24px; background: var(--glass); border: 1px solid var(--glass-border); border-radius: 16px;">
+                <p style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cyan); font-weight: 700; margin-bottom: 12px;">Core Data Science Stack</p>
+                <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                    Python · Pandas · NumPy · Scikit-Learn · SQL · Matplotlib · Seaborn · Power BI · Streamlit · Git · GitHub
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <div style="width: 100%;">
+            <h2 class="section-title">Get In <span>Touch</span></h2>
+            <div class="contact-grid">
+                <div class="contact-cards">
+                    <div class="contact-info-card">
+                        <div class="contact-icon">📧</div>
+                        <div>
+                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Email</p>
+                            <p>mabdalmawla1@gmail.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-card">
+                        <div class="contact-icon">📞</div>
+                        <div>
+                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Phone</p>
+                            <p>0561401583</p>
+                        </div>
+                    </div>
+                    <div class="contact-info-card">
+                        <div class="contact-icon">📍</div>
+                        <div>
+                            <p style="font-size: 0.7rem; color: var(--text-secondary);">Location</p>
+                            <p>Dubai, UAE</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-visual">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple-initials">MA</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2026 Mohamed Abdalmawla. Built with Passion & Vanilla JavaScript.</p>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const dot = document.getElementById('cursor-dot');
+        const ring = document.getElementById('cursor-ring');
+        
+        document.addEventListener('mousemove', (e) => {
+            dot.style.left = e.clientX + 'px';
+            dot.style.top = e.clientY + 'px';
+            
+            // Lagging effect for ring
+            setTimeout(() => {
+                ring.style.left = e.clientX + 'px';
+                ring.style.top = e.clientY + 'px';
+            }, 50);
+        });
+
+        document.querySelectorAll('a, button, .project-card, .tech-chip, .cert-card').forEach(el => {
+            el.addEventListener('mouseenter', () => {
+                ring.style.width = '60px';
+                ring.style.height = '60px';
+                ring.style.borderColor = 'var(--hot-pink)';
+            });
+            el.addEventListener('mouseleave', () => {
+                ring.style.width = '40px';
+                ring.style.height = '40px';
+                ring.style.borderColor = 'var(--indigo)';
+            });
+        });
+
+        // Loading Screen
+        window.addEventListener('load', () => {
+            const fill = document.querySelector('.progress-fill');
+            fill.style.width = '100%';
+            
+            setTimeout(() => {
+                document.getElementById('loader').classList.add('fade-out');
+            }, 2000);
+        });
+
+        // Particle Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.radius = Math.random() * 2;
+                this.color = [ 'var(--indigo)', 'var(--hot-pink)', 'var(--cyan)', 'var(--amber)' ][Math.floor(Math.random()*4)];
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if(this.x < 0 || this.x > canvas.width) this.vx *= -1;
+                if(this.y < 0 || this.y > canvas.height) this.vy *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = getComputedStyle(document.documentElement).getPropertyValue(this.color.replace('var(', '').replace(')', ''));
+                ctx.fill();
+            }
+        }
+
+        for(let i=0; i<80; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            
+            // Draw lines
+            for(let i=0; i<particles.length; i++) {
+                for(let j=i+1; j<particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx*dx + dy*dy);
+                    if(dist < 100) {
+                        ctx.beginPath();
+                        ctx.strokeStyle = `rgba(255,255,255, ${1 - dist/100 * 0.1})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Intersection Observer for Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    
+                    // Trigger skill bars
+                    if(entry.target.id === 'skills') {
+                        document.querySelectorAll('.bar-fill').forEach(bar => {
+                            bar.style.width = bar.dataset.percent + '%';
+                        });
+                    }
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+        // Smooth Scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
